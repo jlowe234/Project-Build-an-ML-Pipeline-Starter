@@ -84,6 +84,22 @@ def test_similar_neigh_distrib(data: pd.DataFrame, ref_data: pd.DataFrame, kl_th
     assert np.isfinite(kl_div) and kl_div < kl_threshold
 
 
-########################################################
-# Implement here test_row_count and test_price_range   #
-########################################################
+def test_row_count(data: pd.DataFrame):
+    """
+    Verify that the dataset is within the expected size
+
+    Args:
+        data: DataFrame to test
+    """
+    assert 15_000 < data.shape[0] < 100_000
+
+def test_price_range(data: pd.DataFrame, min_price: float, max_price: float):
+    """
+    Verify the provided dataset has a valid price range
+
+    Args:
+        data: DataFrame to test
+        min_price: The lower bounds for a valid dataset
+        max_price: The upper bounds for a valid dataset
+    """
+    assert data['price'].between(min_price, max_price).all()
