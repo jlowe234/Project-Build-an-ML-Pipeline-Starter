@@ -15,6 +15,7 @@ In this project you will build such a pipeline.
   * [The configuration](#the-configuration)
   * [Running the entire pipeline or just a selection of steps](#Running-the-entire-pipeline-or-just-a-selection-of-steps)
   * [Pre-existing components](#pre-existing-components)
+- [Project Review](#project-review)
 
 ## Preliminary steps
 
@@ -174,6 +175,13 @@ If you see the any error while running the command:
 ```
 
 Please, make sure all steps are using **the same** python version and that you have **conda installed**. Additionally, *mlflow* and *wandb* packages are crucial and should have the same version.
+
+## Project Review
+
+The W&B project is available [here](https://forge.coreweave.com/wandb/jlowe125-western-governors-university/nyc_airbnb?nw=nwuserjlowe125). 
+The Github project is [here](https://github.com/jlowe234/Project-Build-an-ML-Pipeline-Starter).
+
+If I were to investigate this further, I'd consider exploring other models just to see how the performance could be improved. I'd consider Gradient Boosting to start as it could help with refining non-linear relationships in the data.
 
 
 ## License
