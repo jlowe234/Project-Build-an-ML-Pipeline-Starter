@@ -41,6 +41,7 @@ def go(config: DictConfig):
         clean_file = "clean_sample.csv"
         reference_file = "clean_sample.csv:reference"
         trainval_file = "trainval_data.csv:latest"
+        test_file = "test_data.csv:latest"
         model_dir = "random_forest_export"
 
         if "download" in active_steps:
@@ -126,11 +127,14 @@ def go(config: DictConfig):
 
         if "test_regression_model" in active_steps:
 
-            ##################
-            # Implement here #
-            ##################
-
-            pass
+            _ = mlflow.run(
+                f"{config['main']['components_repository']}/test_regression_model",
+                "main",
+                parameters={
+                    "mlflow_model": f"{model_dir}:prod",
+                    "test_dataset": test_file,
+                }
+            )
 
 
 if __name__ == "__main__":
