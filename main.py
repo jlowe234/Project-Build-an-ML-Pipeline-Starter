@@ -31,9 +31,14 @@ def go(config: DictConfig):
     # Steps to execute
     steps_par = config['main']['steps']
     active_steps = steps_par.split(",") if steps_par != "all" else _steps
+    root_path = hydra.utils.get_original_cwd()
 
     # Move to a temporary directory
     with tempfile.TemporaryDirectory() as tmp_dir:
+
+        # Create some raw file names for use
+        raw_file = "sample.csv"
+        clean_file = "clean_sample.csv"
 
         if "download" in active_steps:
             # Download file and load in W&B
@@ -43,17 +48,27 @@ def go(config: DictConfig):
                 env_manager="conda",
                 parameters={
                     "sample": config["etl"]["sample"],
-                    "artifact_name": "sample.csv",
+                    "artifact_name": raw_file,
                     "artifact_type": "raw_data",
                     "artifact_description": "Raw file as downloaded"
                 },
             )
 
         if "basic_cleaning" in active_steps:
-            ##################
-            # Implement here #
-            ##################
-            pass
+            # Clean the sample file
+            _ = mlflow.run(
+                os.path.join(root_path, "src", "basic_cleaning"),
+                "main",
+                env_manager="conda",
+                parameters={
+                    "input_artifact": f"{raw_file}:latest",
+                    "output_artifact": clean_file,
+                    "output_type": "clean_data",
+                    "output_description": "Cleaned data clamped to min/max prices",
+                    "min_price": config['etl']['min_price'],
+                    "max_price": config['etl']['max_price']
+                }
+            )
 
         if "data_check" in active_steps:
             ##################
